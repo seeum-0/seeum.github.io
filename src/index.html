@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Seeum - Portfolio</title>
+    <link rel="stylesheet" href="../assets/styles/main.css" />
+</head>
+
+<body>
+    <header class="site-header">
+        <nav class="nav container">
+            <a href="#home" class="logo">Seeum</a>
+            <div class="nav-links">
+                <a href="#about">About</a>
+                <a href="#skills">Skills</a>
+                <a href="#featured">Featured</a>
+                <a href="#contact">Contact</a>
+                <a href="#featured" class="btn btn--link">Projects</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="hero__content">
+                <p class="hero__intro">Hi, I’m</p>
+                <h1 class="hero__name">Your Name</h1>
+                <p class="hero__title">Full Stack Developer</p>
+                <p class="hero__description">Building polished, responsive web experiences with modern JavaScript and
+                    accessible design.</p>
+                <div class="hero__actions">
+                    <a href="#featured" class="btn btn--primary">Projects</a>
+                    <a href="#contact" class="btn btn--secondary">Contact</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="panel" id="about">
+            <h2>About Me</h2>
+            <p>I’m passionate about creating user-centric web apps, collaborating closely with designers, and shipping
+                performant products. I have experience in React, Node.js, and cloud deployments.</p>
+        </section>
+
+        <section class="panel" id="skills">
+            <h2>Skills</h2>
+            <div class="grid grid--4">
+                <div class="card">JavaScript / TypeScript</div>
+                <div class="card">React / Next.js</div>
+                <div class="card">Node.js / Express</div>
+                <div class="card">HTML / CSS / Tailwind</div>
+                <div class="card">REST APIs & GraphQL</div>
+                <div class="card">Testing (Jest, RTL)</div>
+                <div class="card">CI/CD & Docker</div>
+                <div class="card">UX & Accessibility</div>
+            </div>
+        </section>
+
+        <section class="panel" id="featured">
+            <h2>Featured Projects</h2>
+            <div class="grid grid--3">
+                <article class="card">
+                    <h3>Portfolio Redesign</h3>
+                    <p>A fully responsive personal site with animated UI and deployment automation.</p>
+                </article>
+                <article class="card">
+                    <h3>Task Management App</h3>
+                    <p>Kanban-style productivity app with real-time sync and offline support.</p>
+                </article>
+                <article class="card">
+                    <h3>E-commerce Storefront</h3>
+                    <p>Next.js shop with cart, payments, and CMS-powered product catalog.</p>
+                </article>
+            </div>
+            <a href="#featured" class="btn btn--primary">View all projects</a>
+        </section>
+
+        <section class="panel" id="contact">
+            <h2>Contact</h2>
+            <p>Let’s connect! Send a message via email or speak directly with me.</p>
+            <a href="#contact" class="btn btn--secondary">Contact me</a>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 Your Name. Designed and built with care. 💖</p>
+    </footer>
+
+    <script>
+        // Smooth anchor navigation with stable top-margin compensation.
+        const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+        const sectionList = Array.from(document.querySelectorAll('section[id]'));
+
+        function setActive(hash) {
+            navLinks.forEach((link) => {
+                link.classList.toggle('active', link.getAttribute('href') === hash);
+            });
+        }
+
+        navLinks.forEach((link) => {
+            link.addEventListener('click', (event) => {
+                const href = link.getAttribute('href');
+                if (!href.startsWith('#')) return;
+                const target = document.querySelector(href);
+                if (!target) return;
+
+                event.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                history.replaceState(null, '', href);
+                setActive(href);
+            });
+        });
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        setActive(`#${entry.target.id}`);
+                    }
+                });
+            },
+            {
+                root: null,
+                rootMargin: '-40% 0px -55% 0px',
+                threshold: 0.15,
+            }
+        );
+
+        sectionList.forEach((section) => observer.observe(section));
+
+        window.addEventListener('load', () => {
+            if (window.location.hash) {
+                const initial = document.querySelector(window.location.hash);
+                if (initial) {
+                    initial.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    setActive(window.location.hash);
+                }
+            } else {
+                setActive('#home');
+            }
+        });
+    </script>
+</body>
+
+</html>
